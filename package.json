@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/gigabite-pro/Eysa23#readme",
   "dependencies": {
+    "@google-cloud/vision": "^4.0.1",
     "@google-cloud/text-to-speech": "^5.0.0",
     "axios": "^1.4.0",
     "convertapi": "^1.12.0",

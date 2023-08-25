@@ -12,7 +12,9 @@ const {Configuration, OpenAIApi} = require('openai');
 const QuickChart = require('quickchart-js');
 const axios = require('axios');
 const authRoute = require('./routes/auth');
+const testRoute = require('./routes/test');
 require('dotenv').config();
+const axios = require('axios');
 
 // Middlewares
 app.use(express.static(__dirname + '/public'));
@@ -43,6 +45,7 @@ mongoose.connect(process.env.MONGO_URI,{
 
 //routes
 app.use('/auth', authRoute);
+app.use('/test', testRoute)
 
 app.get('/', (req,res)=>{
     res.render('index')
@@ -51,6 +54,11 @@ app.get('/', (req,res)=>{
 app.get('/upload', (req,res)=>{
     res.render('upload')
 })
+
+app.get('/test', isAuthorized, (req,res)=>{
+    res.render('test')
+})
+
 
 app.post('/uploadFile', (req,res)=>{
     const fileUrl = req.body.fileUrl
