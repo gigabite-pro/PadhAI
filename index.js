@@ -48,7 +48,7 @@ app.get('/upload', (req,res)=>{
     res.render('upload')
 })
 
-app.get('/test', (req,res)=>{
+app.get('/test', isAuthorized, (req,res)=>{
     res.render('test')
 })
 
