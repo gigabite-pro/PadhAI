@@ -6,8 +6,9 @@ const {isAuthorized} = require('./config/authCheck');
 const bodyParser = require("body-parser");
 var convertapi = require('convertapi')('3CVROT6hAnNl3ri3');
 const authRoute = require('./routes/auth');
+const testRoute = require('./routes/test');
+require('dotenv').config();
 const axios = require('axios');
-require('dotenv').config(); 
 
 // Middlewares
 app.use(express.static(__dirname + '/public'));
@@ -38,6 +39,7 @@ mongoose.connect(process.env.MONGO_URI,{
 
 //routes
 app.use('/auth', authRoute);
+app.use('/test', testRoute)
 
 app.get('/', (req,res)=>{
     res.render('index')
@@ -45,6 +47,10 @@ app.get('/', (req,res)=>{
 
 app.get('/upload', (req,res)=>{
     res.render('upload')
+})
+
+app.get('/test', isAuthorized, (req,res)=>{
+    res.render('test')
 })
 
 

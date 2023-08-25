@@ -20,6 +20,9 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: new Date,
     },
+    personality: {
+        type: String,
+    }
 })
 
 const Users = mongoose.model('Users', userSchema);
