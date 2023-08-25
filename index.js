@@ -10,11 +10,13 @@ const fs = require('fs');
 const util = require('util');
 const {Configuration, OpenAIApi} = require('openai');
 const QuickChart = require('quickchart-js');
+const firebase = require('firebase/app');
+require('firebase/storage');
 const axios = require('axios');
 const authRoute = require('./routes/auth');
 const testRoute = require('./routes/test');
+const Users = require('./models/Users')
 require('dotenv').config();
-const axios = require('axios');
 
 // Middlewares
 app.use(express.static(__dirname + '/public'));
@@ -70,8 +72,81 @@ app.post('/uploadFile', (req,res)=>{
       result.files.forEach(async file => {
         console.log(file.url)
         axios.get(`https://api.ocr.space/parse/imageurl?apikey=K84999666688957&url=${file.url}`)
-        .then(resp => {
+        .then(async resp => {
             console.log(resp.data)
+
+            // tts
+            const uid = req.session.user._id
+            const user = await Users.findOne({_id: uid})
+            if (user.personality == "auditory") {
+                const request = {
+                    input: {text: resp.data},
+                    // Select the language and SSML voice gender (optional)
+                    voice: {languageCode: 'en-US', ssmlGender: 'NEUTRAL'},
+                    // select the type of audio encoding
+                    audioConfig: {audioEncoding: 'MP3'},
+                  };
+            
+                  const [response] = await client.synthesizeSpeech(request);
+                  // Write the binary audio content to a local file
+                  const writeFile = util.promisify(fs.writeFile);
+                  await writeFile('output.mp3', response.audioContent, 'binary');
+                  console.log('Audio content written to file: output.mp3');
+
+                  const firebaseConfig = {
+                    apiKey: "AIzaSyDxwkYGFGLTeEOo7sDzXoQspEeEH1dWD9E",
+                    authDomain: "esya23-3b426.firebaseapp.com",
+                    projectId: "esya23-3b426",
+                    storageBucket: "esya23-3b426.appspot.com",
+                    messagingSenderId: "411799950935",
+                    appId: "1:411799950935:web:293b5915e7b7a62419f512",
+                    measurementId: "G-DKJEV1JHT7"
+                };
+
+                firebase.initializeApp(firebaseConfig);
+
+                const storage = firebase.storage();
+                const storageRef = storage.ref();
+                const filePath = 'output.mp3';
+                const name = `${new Date}-${filePath}`
+                const remotePath = `uploads/${name}`; // Destination path in Firebase Storage
+
+                async function uploadFile() {
+                try {
+                    const fileRef = storageRef.child(remotePath);
+                    const fileSnapshot = await fileRef.put(filePath);
+
+                    console.log('File uploaded successfully.');
+                } catch (error) {
+                    console.error('Error uploading file:', error);
+                }
+                }
+
+                uploadFile();
+
+            } else {
+                const prompt = `Provide a bar graph showing variation in GDP of 5 real Asian Countries. Give it in a format that can be sent to Quickchart API. Format the JSON such that it can be parsed.`
+
+                openai.createCompletion({
+                    model: 'text-davinci-003',
+                    prompt: prompt,
+                    max_tokens: 3000,
+                    temperature: 0
+                }).then(response => {
+                    // console.log(response.data.choices[0].text)
+                    data = JSON.parse(response.data.choices[0].text)
+                    const myChart = new QuickChart();
+                    myChart
+                    .setConfig(data)
+                    .setWidth(800)
+                    .setHeight(400)
+                    .setBackgroundColor('transparent');
+
+                    // Print the chart URL
+                    console.log(myChart.getUrl());
+                    res.send('done')
+                })
+            }
         }).catch(err => {
             console.log(err)
         })
