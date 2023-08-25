@@ -12,15 +12,19 @@
 </head>
 <body>
     <div class="upload-container">
+        <div class="bg">
+            <div class="circle"></div>
+        </div>
+        <h1>Upload</h1>
         <form id="uploadForm" action="/uploadFile" method="POST">
             <div class="custom-file">
                 <input type="file" accept="file/ppt, file/pptx" class="custom-file-input" id="file">
-                <label class="custom-file-label" for="customFile">Choose file</label>
+                <label class="custom-file-label" for="customFile"></label>
             </div>
-            <button type="button" class="btn post-btn" id="uploadBtn" onclick=uploadFile()>Upload</button>
+            <button type="button" class="main-upload gotoupload" id="uploadBtn" onclick=uploadFile()>Upload</button>
             <br><br>
             <p id="loading" style="padding: 1vw 0vw;">Please wait while your file is uploading...</p>
-            <input type="text" name="fileUrl" id="fileUrl" value="">
+            <input type="text" name="fileUrl" id="fileUrl" value="" hidden>
         </form>
     </div>
 
