@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/map-icon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Product Name | Upload</title>
+</head>
+<body>
+    <div class="upload-container">
+        <form id="uploadForm" action="/uploadFile" method="POST">
+            <div class="custom-file">
+                <input type="file" accept="file/ppt, file/pptx" class="custom-file-input" id="file">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+            <button type="button" class="btn post-btn" id="uploadBtn" onclick=uploadFile()>Upload</button>
+            <br><br>
+            <p id="loading" style="padding: 1vw 0vw;">Please wait while your file is uploading...</p>
+            <input type="text" name="fileUrl" id="fileUrl" value="">
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-storage.js"></script>
+    <script>
+        window.onload = () => {
+            bsCustomFileInput.init()
+        }
+
+        const uBtn = document.getElementById('uploadBtn');
+        const fileInput = document.getElementById('fileUrl')
+        const loading = document.getElementById('loading');
+        const form = document.getElementById('uploadForm');
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDxwkYGFGLTeEOo7sDzXoQspEeEH1dWD9E",
+            authDomain: "esya23-3b426.firebaseapp.com",
+            projectId: "esya23-3b426",
+            storageBucket: "esya23-3b426.appspot.com",
+            messagingSenderId: "411799950935",
+            appId: "1:411799950935:web:293b5915e7b7a62419f512",
+            measurementId: "G-DKJEV1JHT7"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        function uploadFile(){
+            loading.style.display = 'block'
+
+            const ref = firebase.storage().ref();
+            const file = document.getElementById('file').files[0];
+            const name = `${new Date}-${file.name}`
+            const metadata = {
+                contentType : file.type
+            }
+            const task = ref.child(name).put(file, metadata)
+
+            task
+            .then(snapshot => snapshot.ref.getDownloadURL())
+            .then(url => {
+                fileInput.value = url
+                loading.style.display = 'none'
+                form.submit()
+            })
+            .catch(err => console.log(err))
+        }
+    </script>
+</body>
+</html>

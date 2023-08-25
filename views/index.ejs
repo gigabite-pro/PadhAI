@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/map-icon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <title>Product Name | Home</title>
+</head>
+<body>
+    <div class="load" id="loader">
+        <div class="one"></div>
+        <div class="two"></div>
+        <div class="three"></div>
+      </div>
+    <div id="particles-js"></div>
+    <div class="main">
+        <div class="illus"></div>
+        <div class="heading">
+            <h1>
+                Learn Something
+            </h1>
+            <h2>
+                personalized study-material enhancers.
+            </h2>
+            <a href="/auth/login">
+                <button class="btn-design home-btn" style="margin-top: -1vw;">
+                    Get Started
+                </button>
+            </a>
+        </div>
+    </div>
+    <footer>
+        Made with ❤️ by &nbsp;<a href="https://vaibhav-sharma.me" target="_blank" class="footer-a">exts</a>
+    </footer>
+    <script src="/js/particles.js"></script>
+    <script>
+        window.addEventListener("load", () => {
+            const loader = document.getElementById("loader");
+            loader.style.opacity = "0";
+            loader.style.visibility = "hidden";
+        });
+        
+        particlesJS.load('particles-js', '/js/particles.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+</html>
