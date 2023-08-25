@@ -11,57 +11,63 @@
     <title>Product Name | Upload</title>
 </head>
 <body>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-storage.js"></script>
-
-    <div>
-        Auditory: <%=(a/total)*100%>%
-        Tactile: <%=(t/total)*100%>%
-        Visual: <%=(v/total)*100%>%
-        <br />
-        <% if ((v >= a) && (v >= t)) { %>
-            You are visual <br />
-            Here are some things visual learners like you can do to learn better:
-            <ul>
-                <li>Sit near the front of the classroom. (It won't mean you're the teacher's pet!)</li>
-                <li>Have your eyesight checked on a regular basis.</li>
-                <li>Use flashcards to learn new words.</li>
-                <li>Try to visualize things that you hear or things that are read to you.</li>
-                <li>Write down key words, ideas, or instructions.</li>
-                <li>Draw pictures to help explain new concepts and then explain the pictures.</li>
-                <li>Color code things.</li>
-                <li>Avoid distractions during study times.</li>
-              </ul>
-        <% } else if ((t >= a) && (t >= v)) { %>
-            You are tactile <br />
-            Here are some things tactile learners like you can do to learn better:
-            <ul>
-                <li>Participate in activities that involve touching, building, moving, or drawing.</li>
-                <li>Do lots of hands-on activities like completing art projects, taking walks, or acting out stories.</li>
-                <li>It's okay to chew gum, walk around, or rock in a chair while reading or studying.</li>
-                <li>Use flashcards and arrange them in groups to show relationships between ideas.</li>
-                <li>Trace words with your finger to learn spelling (finger spelling).</li>
-                <li>Take frequent breaks during reading or studying periods (frequent, but not long).</li>
-                <li>It's okay to tap a pencil, shake your foot, or hold on to something while learning.</li>
-                <li>Use a computer to reinforce learning through the sense of touch.</li>
-              </ul>
-        <% } else { %>
-            You are auditory.<br />
-            Here are some things auditory learners like you can do to learn better:
-            <ul>
-                <li>Sit where you can hear.</li>
-                <li>Have your hearing checked on a regular basis.</li>
-                <li>Use flashcards to learn new words; read them out loud.</li>
-                <li>Read stories, assignments, or directions out loud.</li>
-                <li>Record yourself spelling words and then listen to the recording.</li>
-                <li>Have test questions read to you out loud.</li>
-                <li>Study new material by reading it out loud.</li>
-              </ul>
-        <% } %>
+    <div class="results-container">
+        <div class="r-bg">
+            <div class="r-c1"></div>
+            <div class="r-c2"></div>
+        </div>
+        <div>
+            <h1 class="resultsh1">
+                Results
+            </h1>
+            <div class="percentages">
+            Auditory: <%=(a/total)*100%>%
+            Tactile: <%=(t/total)*100%>%
+            Visual: <%=(v/total)*100%>%
+        </div>
+            <br />
+            <% if ((v >= a) && (v >= t)) { %>
+                <div class="main_pers">Your learning style is&nbsp;<span class="pers">visual</span></div> <br />
+                <div class="space">Here are some things visual learners like you can do to learn better:</div>
+                <br><br>
+                <ul>
+                    <li>Sit near the front of the classroom. (It won't mean you're the teacher's pet!)</li>
+                    <li>Have your eyesight checked on a regular basis.</li>
+                    <li>Use flashcards to learn new words.</li>
+                    <li>Try to visualize things that you hear or things that are read to you.</li>
+                    <li>Write down key words, ideas, or instructions.</li>
+                    <li>Draw pictures to help explain new concepts and then explain the pictures.</li>
+                    <li>Color code things.</li>
+                    <li>Avoid distractions during study times.</li>
+                  </ul>
+            <% } else if ((t >= a) && (t >= v)) { %>
+                <div class="main_pers">Your learning style is&nbsp;<span class="pers">tactile</span></div> <br />
+                Here are some things tactile learners like you can do to learn better:
+                <ul>
+                    <li>Participate in activities that involve touching, building, moving, or drawing.</li>
+                    <li>Do lots of hands-on activities like completing art projects, taking walks, or acting out stories.</li>
+                    <li>It's okay to chew gum, walk around, or rock in a chair while reading or studying.</li>
+                    <li>Use flashcards and arrange them in groups to show relationships between ideas.</li>
+                    <li>Trace words with your finger to learn spelling (finger spelling).</li>
+                    <li>Take frequent breaks during reading or studying periods (frequent, but not long).</li>
+                    <li>It's okay to tap a pencil, shake your foot, or hold on to something while learning.</li>
+                    <li>Use a computer to reinforce learning through the sense of touch.</li>
+                  </ul>
+            <% } else { %>
+                <div class="main_pers">Your learning style is&nbsp;<span class="pers">auditory</span></div><br />
+                Here are some things auditory learners like you can do to learn better:
+                <ul>
+                    <li>Sit where you can hear.</li>
+                    <li>Have your hearing checked on a regular basis.</li>
+                    <li>Use flashcards to learn new words; read them out loud.</li>
+                    <li>Read stories, assignments, or directions out loud.</li>
+                    <li>Record yourself spelling words and then listen to the recording.</li>
+                    <li>Have test questions read to you out loud.</li>
+                    <li>Study new material by reading it out loud.</li>
+                  </ul>
+            <% } %>
+            <a href="/upload"><button class="gotoupload">Upload</button></a>
+        </div>
     </div>
 
 </body>
