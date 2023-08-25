@@ -8,6 +8,7 @@ var convertapi = require('convertapi')('3CVROT6hAnNl3ri3');
 const authRoute = require('./routes/auth');
 const testRoute = require('./routes/test');
 require('dotenv').config();
+const axios = require('axios');
 
 // Middlewares
 app.use(express.static(__dirname + '/public'));
@@ -73,7 +74,26 @@ app.post('/uploadFile', (req,res)=>{
 
 app.get('/uploaded', async (req,res)=>{
     res.send('uploaded')
-})
+});
+
+app.get('/dalle', async (req, res) => {
+    await axios.post('https://api.openai.com/v1/images/generations', {
+        "prompt": "Design a 'Word Tree' where each branch blossoms with words related to a different story",
+        "n": 1,
+        "size": "1024x1024"
+    }, {
+        headers: {
+            "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+            "Content-Type": "application/json"
+        }
+    }).then(response => {
+        console.log(response.data);
+        res.send(response.data.data[0].url);
+    }).catch(err => {
+        console.log(err);
+        res.send(err);
+    });
+});
 
 const PORT = process.env.PORT || 3000;
 
